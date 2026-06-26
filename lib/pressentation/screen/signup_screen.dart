@@ -19,7 +19,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
 
-  final bool _isPasswordVisible = false;
+  bool _isPasswordVisible = false;
 
   final _nameFocus = FocusNode();
   final _userNameFocus = FocusNode();
@@ -49,6 +49,8 @@ class _SignupScreenState extends State<SignupScreen> {
     if(value == null || value.isEmpty){
       return "Please enter your Username";
     }
+    return null;
+
   }
 
   String? _validatedPhone(String? value) {
@@ -62,6 +64,8 @@ class _SignupScreenState extends State<SignupScreen> {
     if (!phoneRegex.hasMatch(value)) {
       return "Please enter a valid phone number";
     }
+    return null;
+
   }
 
   String? _validatedEmail(String? value) {
@@ -77,17 +81,25 @@ class _SignupScreenState extends State<SignupScreen> {
     if (!emailRegex.hasMatch(value.trim())) {
       return "Please enter a valid Email address";
     }
+    return null;
+
   }
 
   String? _validatedPassword(String? value){
     if(value == null || value.isEmpty){
       return "Please enter your Password";
     }
+    if(value.length < 6 ){
+      return "Password must be at least 6 characters long";
+    }
+    return null;
   }
   String? _validatedName(String? value){
     if(value == null || value.isEmpty){
       return "Please enter your Full Name";
     }
+    return null;
+
   }
 
   @override
@@ -151,15 +163,19 @@ class _SignupScreenState extends State<SignupScreen> {
                 CustomTextField(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: true,
-                  suffixIcons: Icon(Icons.visibility),
+                  obscureText: !_isPasswordVisible,
+                  suffixIcons: IconButton(onPressed: (){
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  }, icon: _isPasswordVisible == false ? const Icon(Icons.visibility_outlined) : const Icon(Icons.visibility_off_outlined)),
                   prefixIcons: Icon(Icons.lock_outline),
                   validator: _validatedPassword,
                   focusNode: _passwordFocus,
                 ),
                 const SizedBox(height: 30),
                 CustomButton(onPressed: () {
-                  // FocusScope.of(context).unfocus();
+                  FocusScope.of(context).unfocus();
                   if(_formkey.currentState?.validate() ?? false){
                   }
                 }, text: 'Sign Up'),
