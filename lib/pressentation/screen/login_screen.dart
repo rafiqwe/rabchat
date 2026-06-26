@@ -12,24 +12,59 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formkey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  bool _isPasswordVisible = false;
+
+  final _emailFocus = FocusNode();
+  final _passwordFocus = FocusNode();
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
     super.dispose();
+  }
+
+  String? _validatedEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Please enter your Email";
+    }
+
+    final emailRegex = RegExp(
+      r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+    );
+
+    // Check if the input text matches the regex pattern
+    if (!emailRegex.hasMatch(value.trim())) {
+      return "Please enter a valid Email address";
+    }
+    return null;
+  }
+
+  String? _validatedPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Please enter your Password";
+    }
+    if (value.length < 6) {
+      return "Password must be at least 6 characters long";
+    }
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Form(
+            key: _formkey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -51,17 +86,38 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: emailController,
                   hintText: 'Email',
                   prefixIcons: Icon(Icons.email_outlined),
+                  focusNode: _emailFocus,
+                  validator: _validatedEmail,
                 ),
                 const SizedBox(height: 15),
                 CustomTextField(
                   controller: passwordController,
                   hintText: 'Password',
-                  obscureText: true,
-                  suffixIcons: Icon(Icons.visibility),
+                  obscureText: !_isPasswordVisible,
+                  suffixIcons: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                    icon: Icon(
+                      _isPasswordVisible == false
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
+                  ),
                   prefixIcons: Icon(Icons.lock_outline),
+                  focusNode: _passwordFocus,
+                  validator: _validatedPassword,
                 ),
                 const SizedBox(height: 20),
-                CustomButton(onPressed: () {}, text: 'Create Account'),
+                CustomButton(
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    if (_formkey.currentState?.validate() ?? false) {}
+                  },
+                  text: 'Create Account',
+                ),
                 const SizedBox(height: 30),
                 Center(
                   child: RichText(
