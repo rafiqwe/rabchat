@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rabchats/core/common/custom_button.dart';
 import 'package:rabchats/core/common/custom_text_field.dart';
+import 'package:rabchats/data/services/service_loactor.dart';
 import 'package:rabchats/pressentation/screen/login_screen.dart';
+import 'package:rabchats/router/app_router.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -195,12 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Navigator.pop(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginScreen(),
-                                ),
-                              );
+                              getIt<AppRouter>().pop(SignupScreen());
                             },
                         ),
                       ],
