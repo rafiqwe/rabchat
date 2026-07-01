@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "155004715448",
+    "project_id": "rabchat",
+    "storage_bucket": "rabchat.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155004715448:android:367395b21b64ced9a94f4d",
+        "android_client_info": {
+          "package_name": "com.example.rabchats.rabchats"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzHtlb32Hfn96ThaLiICS7_A4S768GdQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
