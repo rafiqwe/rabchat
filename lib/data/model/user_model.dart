@@ -9,7 +9,7 @@ class UserModel {
   final bool isOnline;
   final Timestamp lastSeen;
   final Timestamp createdAt;
-  final String fcmToken;
+  final String? fcmToken;
   final List<String> blockUsers;
 
   UserModel({
@@ -21,12 +21,27 @@ class UserModel {
     this.isOnline = false,
     Timestamp? lastSeen,
     Timestamp? createdAt,
-    required this.fcmToken,
+    this.fcmToken,
     this.blockUsers = const [],
   }) : lastSeen = lastSeen ?? Timestamp.now(),
        createdAt = createdAt ?? Timestamp.now();
 
-  Map<String, dynamic> toMap(){
+  factory UserModel.fromFirestore(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return UserModel(
+      uid: doc.id,
+      username: data['username'],
+      fullName: data['fullName'],
+      email: data['email'],
+      phoneNumber: data['phoneNumber'],
+      fcmToken: data['fcmToken'],
+      lastSeen: data['lastSeen'],
+      blockUsers: data['blockUsers'],
+      createdAt: data['createdAt'],
+    );
+  }
+
+  Map<String, dynamic> toMap() {
     return {
       'username': username,
       'fullName': fullName,
@@ -38,6 +53,5 @@ class UserModel {
       'blockUsers': blockUsers,
       'fcmToken': fcmToken,
     };
-}
-
+  }
 }

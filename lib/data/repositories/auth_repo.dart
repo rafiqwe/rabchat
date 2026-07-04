@@ -1,11 +1,14 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rabchats/data/model/user_model.dart';
 import 'package:rabchats/data/services/auth_repository.dart';
 
 class AuthRepo extends BaseRepository {
+
+  Stream<User?>? get authStateChanges => auth.authStateChanges();
+
   Future<UserModel> signUp({
-    required String uid,
     required String username,
     required String fullName,
     required String email,
@@ -13,6 +16,7 @@ class AuthRepo extends BaseRepository {
     required String password,
   }) async {
     try {
+
       final userCredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
@@ -21,12 +25,14 @@ class AuthRepo extends BaseRepository {
         throw 'Failed to create user';
       }
 
+      final formattedPhone = phoneNumber.replaceAll(RegExp(r'\s+'), ' '.trim());
+
       final user = UserModel(
         uid: userCredential.user!.uid,
         username: username,
         fullName: fullName,
         email: email,
-        phoneNumber: phoneNumber,
+        phoneNumber: formattedPhone,
       );
       await saveUserData(user);
       return user;
