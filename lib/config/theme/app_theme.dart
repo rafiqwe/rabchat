@@ -36,7 +36,7 @@ class AppTheme {
     // Input Decoration
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: primaryColor.withOpacity(0.1),
+      fillColor: primaryColor.withValues(alpha: 0.1),
       contentPadding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 8,
@@ -61,7 +61,7 @@ class AppTheme {
 
     // Message Bubbles
     cardTheme: CardThemeData(
-      color: primaryColor.withOpacity(0.1),
+      color: primaryColor.withValues(alpha: 0.1),
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
