@@ -8,7 +8,7 @@ class ChatMessageModel {
   final String id;
   final String chatRoomId;
   final String senderId;
-  final String ReceiverId;
+  final String receiverId;
   final String content;
   final MessageType type;
   final MessageStatus status;
@@ -20,7 +20,7 @@ class ChatMessageModel {
     required this.id,
     required this.chatRoomId,
     required this.senderId,
-    required this.ReceiverId,
+    required this.receiverId,
     required this.content,
     this.type = MessageType.text,
     this.status = MessageStatus.send,
@@ -34,10 +34,10 @@ class ChatMessageModel {
       id: doc.id,
       chatRoomId: data['chatRoomId'] as String,
       senderId: data["senderId"] as String,
-      ReceiverId: data["ReceiverId"] as String,
+      receiverId: data["receiverId"] as String,
       content: data["content"] as String,
       timestamp: data["timestamp"] as Timestamp,
-      readBy: List<String>.from(data['readBy']) ?? [],
+      readBy: List<String>.from(data['readBy']),
       type: MessageType.values.firstWhere(
         (e) => e.toString() == data['type'],
         orElse: () => MessageType.text,
@@ -53,7 +53,7 @@ class ChatMessageModel {
     return {
       'chatRoomId': chatRoomId,
       'senderId': senderId,
-      'ReceiverId': ReceiverId,
+      'receiverId': receiverId,
       'content': content,
       'type': type,
       'status': status,
@@ -66,7 +66,7 @@ class ChatMessageModel {
     String? id,
     String? chatRoomId,
     String? senderId,
-    String? ReceiverId,
+    String? receiverId,
     String? content,
     MessageType? type,
     MessageStatus? status,
@@ -76,10 +76,10 @@ class ChatMessageModel {
       id: id ?? this.id,
       chatRoomId: chatRoomId ?? this.chatRoomId,
       senderId: senderId ?? this.senderId,
-      ReceiverId: ReceiverId ?? this.ReceiverId,
+      receiverId: receiverId ?? this.receiverId,
       content: content ?? this.content,
       timestamp: timestamp ?? this.timestamp,
-      readBy: readBy ?? this.readBy,
+      readBy: readBy,
       type: type ?? this.type,
       status: status ?? this.status,
     );
