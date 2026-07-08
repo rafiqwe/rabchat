@@ -4,7 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
 import 'package:rabchats/data/repositories/auth_repo.dart';
+import 'package:rabchats/data/repositories/chat_repo.dart';
+import 'package:rabchats/data/repositories/contacts_repo.dart';
 import 'package:rabchats/firebase_options.dart';
+import 'package:rabchats/logic/chat/chat_cubit.dart';
 import 'package:rabchats/logic/cubit/auth_cubit.dart';
 import 'package:rabchats/router/app_router.dart';
 
@@ -20,5 +23,12 @@ Future<void> setUpServiceLoator() async {
   );
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerLazySingleton(() => AuthRepo());
-  getIt.registerFactory(() => AuthCubit(authRepo: AuthRepo()));
+  getIt.registerLazySingleton(() => ContactsRepo());
+  getIt.registerLazySingleton(() => AuthCubit(authRepo: AuthRepo()));
+  getIt.registerLazySingleton(
+    () {
+      var uid2 = AuthRepo().uid;
+      return ChatCubit(chatRepo: ChatRepo(), currentUserId: uid2);
+    },
+  );
 }
