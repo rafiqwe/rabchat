@@ -7,7 +7,7 @@ abstract class BaseRepository {
 
   User? get currentUser => auth.currentUser;
 
-  String get uid => currentUser!.uid ?? "";
+  String get uid => currentUser!.uid;
 
   bool get isAuthenticated => currentUser != null;
 }
