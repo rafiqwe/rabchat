@@ -35,9 +35,9 @@ class ChatRoomModel {
       lastMessage: data['lastMessage'],
       lastMessageSenderId: data['lastMessageSenderId'],
       lastMessageSenderTime: data['lastMessageSenderTime'],
-      lastReadTime: Map<String, Timestamp>.from(data['lastReadTime']) ?? {},
+      lastReadTime: Map<String, Timestamp>.from(data['lastReadTime']),
       perticipantsName:
-          Map<String, String>.from(data['perticipantsName']) ?? {},
+          Map<String, String>.from(data['perticipantsName']),
       isTyping: data['isTyping'] ?? false,
       typingUserId: data['typingUserId'],
       isCallActive: data['isCallActive'] ?? false,
