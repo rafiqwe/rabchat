@@ -24,11 +24,13 @@ Future<void> setUpServiceLoator() async {
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerLazySingleton(() => AuthRepo());
   getIt.registerLazySingleton(() => ContactsRepo());
+  getIt.registerLazySingleton(() => ChatRepo());
   getIt.registerLazySingleton(() => AuthCubit(authRepo: AuthRepo()));
-  getIt.registerLazySingleton(
-    () {
-      var uid2 = AuthRepo().uid;
-      return ChatCubit(chatRepo: ChatRepo(), currentUserId: uid2);
-    },
-  );
+
+  getIt.registerFactory(() {
+    return ChatCubit(
+      chatRepo: ChatRepo(),
+      currentUserId: getIt<FirebaseAuth>().currentUser?.uid ?? '',
+    );
+  });
 }
