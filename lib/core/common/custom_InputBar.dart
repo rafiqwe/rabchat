@@ -7,7 +7,7 @@ class CustomInputbar extends StatelessWidget {
   final ValueListenable<bool> _hasText;
   final Future<void> Function() _handleSendMessage; // Fixed function signature
 
-  const CustomInputbar({
+  CustomInputbar({
     super.key,
     required this.primary,
     required this.messageController,
@@ -50,16 +50,25 @@ class CustomInputbar extends StatelessWidget {
                   ],
                 ),
                 child: Row(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.center, // Aligns elements vertically
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment:
+                      MainAxisAlignment.center, // Aligns elements vertically
                   children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.emoji_emotions_outlined,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {},
+                    ValueListenableBuilder(
+                      valueListenable: _hasText,
+                      builder: (context, hasText, _) {
+                        return hasText
+                            ? const SizedBox.shrink()
+                            : IconButton(
+                                icon: const Icon(
+                                  Icons.emoji_emotions_outlined,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () {},
+                              );
+                      },
                     ),
+
                     Expanded(
                       child: TextField(
                         keyboardType: TextInputType.multiline,
@@ -76,15 +85,31 @@ class CustomInputbar extends StatelessWidget {
                           fillColor: Colors.white,
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide.none,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(24),
+                            ),
                           ),
                           enabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 15,
+                          ),
                         ),
                       ),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.attach_file, color: Colors.grey),
-                      onPressed: () {},
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _hasText,
+                      builder: (context, hasText, child) {
+                        return hasText
+                            ? const SizedBox.shrink()
+                            : IconButton(
+                                icon: const Icon(
+                                  Icons.attach_file,
+                                  color: Colors.grey,
+                                ),
+                                onPressed: () {},
+                              );
+                      },
                     ),
                   ],
                 ),
