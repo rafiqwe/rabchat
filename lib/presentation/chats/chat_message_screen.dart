@@ -1,6 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rabchats/core/common/custom_InputBar.dart';
 import 'package:rabchats/data/model/chat_message_model.dart';
 import 'package:rabchats/data/services/service_loactor.dart';
 import 'package:rabchats/logic/chat/chat_cubit.dart';
@@ -194,7 +195,12 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                   },
                 ),
               ),
-              _buildInputBar(primary),
+              CustomInputbar(
+                primary: primary,
+                messageController: messageController,
+                hasText: _hasText,
+                handleSendMessage: _handleSendMessage,
+              ),
             ],
           );
         },
@@ -253,11 +259,16 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                         controller: messageController,
                         style: const TextStyle(fontSize: 15.5),
                         decoration: const InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
                           hintText: 'Type a message',
                           hintStyle: TextStyle(color: Colors.grey),
                           border: InputBorder.none,
                           isCollapsed: true,
                           contentPadding: EdgeInsets.symmetric(vertical: 12),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide.none,
+                          ),
                         ),
                       ),
                     ),
