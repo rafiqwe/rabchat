@@ -149,12 +149,20 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
             );
           }
           if (state.messages.isEmpty) {
-            return const Center(
-              child: Text(
-                'Say hello 👋\nNo messages yet',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black45, fontSize: 15),
-              ),
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Say hello 👋\nNo messages yet',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.black45, fontSize: 15),
+                    ),
+                  ),
+                ),
+                _buildInputBar(primary),
+              ],
             );
           }
           return Column(
