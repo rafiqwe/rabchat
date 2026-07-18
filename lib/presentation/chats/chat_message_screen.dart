@@ -162,7 +162,12 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
                     ),
                   ),
                 ),
-                _buildInputBar(primary),
+                CustomInputbar(
+                  primary: primary,
+                  messageController: messageController,
+                  hasText: _hasText,
+                  handleSendMessage: _handleSendMessage,
+                ),
               ],
             );
           }
@@ -204,106 +209,6 @@ class _ChatMessageScreenState extends State<ChatMessageScreen> {
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildInputBar(Color primary) {
-    return SafeArea(
-      top: false,
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFF0F0F0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 6,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Expanded(
-              child: Container(
-                constraints: const BoxConstraints(minHeight: 46),
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
-                      blurRadius: 3,
-                      offset: const Offset(0, 1),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.emoji_emotions_outlined,
-                        color: Colors.grey,
-                      ),
-                      onPressed: () {},
-                    ),
-                    Expanded(
-                      child: TextField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 5,
-                        minLines: 1,
-                        textCapitalization: TextCapitalization.sentences,
-                        controller: messageController,
-                        style: const TextStyle(fontSize: 15.5),
-                        decoration: const InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Type a message',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                          isCollapsed: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 12),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.attach_file, color: Colors.grey),
-                      onPressed: () {},
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(width: 6),
-            ValueListenableBuilder<bool>(
-              valueListenable: _hasText,
-              builder: (context, hasText, _) {
-                return Material(
-                  color: primary,
-                  shape: const CircleBorder(),
-                  clipBehavior: Clip.antiAlias,
-                  child: InkWell(
-                    onTap: hasText ? _handleSendMessage : () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Icon(
-                        hasText ? Icons.send : Icons.mic_none,
-                        color: Colors.white,
-                        size: 22,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
       ),
     );
   }
