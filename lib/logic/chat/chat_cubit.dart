@@ -66,10 +66,10 @@ class ChatCubit extends Cubit<ChatState> {
         .getMessage(chatRoomId)
         .listen(
           (message) {
+            emit(state.copyWith(messages: message, error: null));
             if (_isInChat) {
               _markMessagesAsRead(chatRoomId);
             }
-            emit(state.copyWith(messages: message, error: null));
           },
           onError: (error) {
             emit(
