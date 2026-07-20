@@ -154,7 +154,6 @@ class ChatRepo extends BaseRepository {
         .get();
 
     log("Found ${unreadMessagesQuery.docs.length}");
-    
 
     for (final doc in unreadMessagesQuery.docs) {
       batch.update(doc.reference, {
@@ -164,5 +163,30 @@ class ChatRepo extends BaseRepository {
     }
 
     await batch.commit();
+  }
+
+  Stream<Map<String, dynamic>> getUserOnlineStatus(String userId) {
+    return firebaseStore.collection('Users').doc(userId).snapshots().map((
+      snapshort,
+    ) {
+      final data = snapshort.data();
+      return {
+        'isOnline': data?['isOnline'] ?? false,
+        'lastSeen': data?['lastSeen'],
+      };
+    });
+  }
+
+  Stream<Map<String, dynamic>> getTypingStatus(String chatRoomId) {
+    return _chatRooms.doc(chatRoomId).snapshots().map((snapshort) {
+      if (!snapshort.exists) {
+        return {'isTyping': false, 'typingUserId': null};
+      }
+      final data = snapshort.data() as Map<String, dynamic>;
+      return {
+        'isTyping': data['isTyping'] ?? false,
+        'typingUserId': data['typingUserId'],
+      };
+    });
   }
 }
