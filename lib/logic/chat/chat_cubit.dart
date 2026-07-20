@@ -93,4 +93,6 @@ class ChatCubit extends Cubit<ChatState> {
   Future<void> leaveChat() async {
     _isInChat = false;
   }
+
+ 
 }
